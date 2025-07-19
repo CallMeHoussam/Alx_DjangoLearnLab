@@ -23,15 +23,3 @@ This project is structured to walk you through:
 
 This project lives in the `Introduction_to_Django` directory inside the GitHub repo: **`Alx_DjangoLearnLab`**.
 
-Here’s what you will do step by step:
-
----
-
-### ✅ Task 0: Introduction to Django Development Environment Setup
-
-**Goal:** Set up Django and create a basic Django project called `LibraryProject`.
-
-**Steps:**
-- Install Django:
-  ```bash
-  pip install django
