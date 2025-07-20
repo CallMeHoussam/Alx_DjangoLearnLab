@@ -1,13 +1,15 @@
-from .models import Book, Library
-from django.shortcuts import render
-from django.views.generic.detail import DetailView
-from relationship_app.models import Book, Library
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
-def list_books(request):
-    books = Book.objects.all().select_related('author')
-    return render(request, 'relationship_app/list_books.html', {'books': books})
-
-class LibraryDetailView(DetailView):
-    model = Library
-    template_name = 'relationship_app/library_detail.html'
-    context_object_name = 'library'
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Account created for {username}!')
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'relationship_app/register.html', {'form': form})
