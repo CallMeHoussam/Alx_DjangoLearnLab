@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import DetailView
-from .models import Book, Library
+from django.views.generic.detail import DetailView
+from relationship_app.models import Book, Library
 
 def list_books(request):
     books = Book.objects.all().select_related('author')
