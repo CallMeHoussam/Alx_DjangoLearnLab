@@ -6,8 +6,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from .models import Library
 from .models import Book
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test, login_required
 
 def register(request):
     if request.method == 'POST':
