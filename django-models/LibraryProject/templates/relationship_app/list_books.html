@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All Books</title>
+    <title>List of Books</title>
 </head>
 <body>
-    <h1>All Books in Database</h1>
+    <h1>Books Available:</h1>
     <ul>
         {% for book in books %}
-        <li><strong>{{ book.title }}</strong> by {{ book.author.name }}</li>
-        {% empty %}
-        <li>No books available in the database.</li>
+        <li>{{ book.title }} by {{ book.author.name }}</li>
         {% endfor %}
     </ul>
 </body>
