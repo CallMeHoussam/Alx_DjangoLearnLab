@@ -23,7 +23,7 @@ SECRET_KEY = 'django-insecure-*8y$b5=o_y)l+=et!cs3ei6_e*^fkj2se%ljxg=f%-@j5x5im#
 DEBUG = True
 
 ALLOWED_HOSTS = []
-ALLED_APPS = [
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,7 +31,8 @@ ALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'relationship_app',
-    ]
+    'bookshelf',  # Make sure bookshelf is listed here
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,6 +94,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 AUTH_PROFILE_MODULE = 'relationship_app.UserProfile'
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
 
 
 # Internationalization
