@@ -2,7 +2,8 @@ from django.contrib.auth.decorators import permission_required, login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from .models import Book
-from .forms import BookForm, ExampleForm
+from .forms import BookForm
+from .forms import ExampleForm
 
 @login_required
 @permission_required('bookshelf.can_view_book', raise_exception=True)
