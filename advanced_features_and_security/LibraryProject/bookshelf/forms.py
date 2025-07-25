@@ -10,3 +10,6 @@ class BookForm(forms.ModelForm):
             'author': forms.TextInput(attrs={'class': 'form-control'}),
             'published_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
+
+class ExampleForm(forms.Form):
+    example_field = forms.CharField(label='Example Field', max_length=100)
