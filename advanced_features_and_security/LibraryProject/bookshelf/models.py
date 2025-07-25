@@ -35,6 +35,24 @@ class CustomUser(AbstractUser):
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
+        permissions = [
+            ("can_view", "Can view content"),
+            ("can_create", "Can create content"),
+            ("can_edit", "Can edit content"),
+            ("can_delete", "Can delete content"),
+        ]
+class Book(models.Model):
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=100)
+    published_date = models.DateField()
+
+    class Meta:
+        permissions = [
+            ("can_view_book", "Can view books"),
+            ("can_create_book", "Can create books"),
+            ("can_edit_book", "Can edit books"),
+            ("can_delete_book", "Can delete books"),
+        ]
 
     objects = CustomUserManager()
 
