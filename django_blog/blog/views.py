@@ -184,3 +184,18 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):cla
 
     def get_success_url(self):    def get_success_url(self):
         return reverse_lazy('post-detail', kwargs={'pk': self.get_object().post.pk})
+
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag_slug = self.kwargs['tag_slug']
+        self.tag = get_object_or_404(Tag, slug=tag_slug)
+        return Post.objects.filter(tags__in=[self.tag]).order_by('-published_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.tag
+        return context
