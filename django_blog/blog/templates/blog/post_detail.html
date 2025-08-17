@@ -7,7 +7,13 @@
         <a href="{% url 'post-delete' post.id %}">Delete Post</a>
     {% endif %}
 </article>
-
+<a href="{% url 'comment-update' post_id=post.pk pk=comment.pk %}">Edit</a>
+<a href="{% url 'comment-delete' post_id=post.pk pk=comment.pk %}">Delete</a>
+<form method="post" action="{% url 'comment-create' post_id=post.pk %}">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit">Add Comment</button>
+</form>
 <section class="comments">
     <h3>Comments</h3>
     {% for comment in comments %}
