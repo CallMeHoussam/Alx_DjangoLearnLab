@@ -3,7 +3,31 @@
     <p>By {{ post.author }} on {{ post.published_date }}</p>
     <p>{{ post.content }}</p>
     {% if user == post.author %}
-        <a href="{% url 'post-update' post.id %}">Edit</a>
-        <a href="{% url 'post-delete' post.id %}">Delete</a>
+        <a href="{% url 'post-update' post.id %}">Edit Post</a>
+        <a href="{% url 'post-delete' post.id %}">Delete Post</a>
     {% endif %}
 </article>
+
+<section class="comments">
+    <h3>Comments</h3>
+    {% for comment in comments %}
+        <div class="comment">
+            <p>{{ comment.content }}</p>
+            <small>By {{ comment.author }} on {{ comment.created_at }}</small>
+            {% if user == comment.author %}
+                <a href="{% url 'comment-edit' comment.id %}">Edit</a>
+                <a href="{% url 'comment-delete' comment.id %}">Delete</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit">Add Comment</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to post comments</p>
+    {% endif %}
+</section>
