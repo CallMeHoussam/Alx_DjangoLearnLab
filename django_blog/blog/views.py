@@ -8,6 +8,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
+def register(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('post-list')
+    else:
+        form = RegisterForm()
+    return render(request, 'blog/register.html', {'form': form})
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     comments = post.comments.all()
@@ -114,6 +124,9 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 def logout_view(request):
     logout(request)
     return redirect('home')
+@login_required
+def profile(request):
+    return render(request, 'blog/profile.html')
 
 @login_required
 def profile_view(request):
