@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .models import User
-from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer
+from ..posts.serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
