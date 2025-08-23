@@ -22,6 +22,7 @@ class Notification(models.Model):
     target = GenericForeignKey('target_content_type', 'target_object_id')
     message = models.TextField(blank=True)
     is_read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(default=timezone.now)  # Added timestamp field
     created_at = models.DateTimeField(default=timezone.now)
     
     class Meta:
