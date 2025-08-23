@@ -4,16 +4,13 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer
-from .serializers import UserProfileSerializer  # For listing users
+from .serializers import UserProfileSerializer  
 
 CustomUser = get_user_model()
 
-# ✅ Register User
 class RegisterView(generics.CreateAPIView):
     serializer_class = UserRegistrationSerializer
 
-
-# ✅ Login User
 class LoginView(APIView):
     def post(self, request):
         serializer = UserLoginSerializer(data=request.data)
@@ -28,8 +25,6 @@ class LoginView(APIView):
             return Response({'token': token.key})
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-
-# ✅ Profile View
 class ProfileView(generics.RetrieveUpdateAPIView):
     serializer_class = UserProfileSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -37,8 +32,6 @@ class ProfileView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         return self.request.user
 
-
-# ✅ User List View (required by checker)
 class UserListView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserProfileSerializer
@@ -49,8 +42,6 @@ class UserListView(generics.GenericAPIView):
         serializer = self.get_serializer(users, many=True)
         return Response(serializer.data)
 
-
-# ✅ Follow User
 class FollowUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -69,8 +60,6 @@ class FollowUserView(APIView):
         request.user.following.add(target_user)
         return Response({'message': f'You are now following {target_user.username}'}, status=status.HTTP_200_OK)
 
-
-# ✅ Unfollow User
 class UnfollowUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
