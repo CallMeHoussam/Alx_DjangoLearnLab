@@ -45,3 +45,22 @@ curl -X POST http://localhost:8000/api/posts/ \
   -H "Authorization: Token <your_token>" \
   -H "Content-Type: application/json" \
   -d '{"title": "My First Post", "content": "This is my first post content"}'
+## Follow and Feed Functionality
+
+### Follow Management
+- `POST /api/auth/follow/` - Follow a user
+- `POST /api/auth/unfollow/` - Unfollow a user
+- `GET /api/auth/followers/` - Get list of followers
+- `GET /api/auth/following/` - Get list of users you're following
+
+### User Feed
+- `GET /api/feed/` - Get feed of posts from users you follow
+
+### Example Requests
+
+**Follow a user:**
+```bash
+curl -X POST http://localhost:8000/api/auth/follow/ \
+  -H "Authorization: Token <your_token>" \
+  -H "Content-Type: application/json" \
+  -d '{"user_id": 2}'

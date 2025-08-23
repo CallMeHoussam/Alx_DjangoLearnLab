@@ -6,6 +6,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .models import Post, Comment
 from .serializers import PostSerializer, PostCreateSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.decorators import api_view, permission_classes
+from .models import Post
+from .serializers import PostSerializer
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -46,3 +49,21 @@ class CommentViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_feed(request):
+    # Get users that the current user is following
+    following_users = request.user.following.all()
+    
+    # Get posts from followed users, ordered by most recent
+    feed_posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
+    
+    # Paginate the results
+    page = request.query_params.get('page', 1)
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    
+    result_page = paginator.paginate_queryset(feed_posts, request)
+    serializer = PostSerializer(result_page, many=True, context={'request': request})
+    
+    return paginator.get_paginated_response(serializer.data)
