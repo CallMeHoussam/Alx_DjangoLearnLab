@@ -1,2 +1,4 @@
-myenv
-venv
+myenv/
+venv/
+__pycache__/
+node_modules/

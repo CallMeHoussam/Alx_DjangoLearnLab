@@ -11,6 +11,8 @@ INSTALLED_APPS = [
     'django_filters',
     'accounts',
     'posts',
+    'notifications',
+    'django.contrib.contenttypes',
 ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'

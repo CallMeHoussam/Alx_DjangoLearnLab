@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from .serializers import UserRegistrationSerializer, UserLoginSerializer, UserProfileSerializer
 from .serializers import UserProfileSerializer  
+from notifications.models import Notification
 
 CustomUser = get_user_model()
 
@@ -59,6 +60,22 @@ class FollowUserView(APIView):
 
         request.user.following.add(target_user)
         return Response({'message': f'You are now following {target_user.username}'}, status=status.HTTP_200_OK)
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            user_id = serializer.validated_data['user_id']
+            user_to_follow = get_object_or_404(User.objects.all(), id=user_id)
+            
+            if request.user.follow(user_to_follow):
+                Notification.objects.create(
+                    recipient=user_to_follow,
+                    actor=request.user,
+                    verb='follow',
+                    message=f"{request.user.username} started following you"
+                )
+                return Response({
+                    'message': f'You are now following {user_to_follow.username}'
+                }, status=status.HTTP_200_OK)
 
 class UnfollowUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]

@@ -10,6 +10,11 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
+    likes_count = models.PositiveIntegerField(default=0)
+    
+    def update_likes_count(self):
+        self.likes_count = self.likes.all().count()
+        self.save()
     
     class Meta:
         ordering = ['-created_at']
@@ -29,3 +34,23 @@ class Comment(models.Model):
     
     def __str__(self):
         return f"Comment by {self.author.username} on {self.post.title}"
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    created_at = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        unique_together = ('user', 'post')
+        ordering = ['-created_at']
+    
+    def __str__(self):
+        return f"{self.user.username} likes {self.post.title}"
+    
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.post.update_likes_count()
+    
+    def delete(self, *args, **kwargs):
+        post = self.post
+        super().delete(*args, **kwargs)
+        post.update_likes_count()

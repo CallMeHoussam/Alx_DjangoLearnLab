@@ -64,3 +64,23 @@ curl -X POST http://localhost:8000/api/auth/follow/ \
   -H "Authorization: Token <your_token>" \
   -H "Content-Type: application/json" \
   -d '{"user_id": 2}'
+## Notifications and Likes Functionality
+
+### Likes
+- `POST /api/posts/{id}/like/` - Like a post
+- `POST /api/posts/{id}/unlike/` - Unlike a post
+- `GET /api/posts/{id}/likes/` - Get list of likes for a post
+
+### Notifications
+- `GET /api/notifications/` - Get user notifications
+- `GET /api/notifications/{id}/` - Get specific notification
+- `PATCH /api/notifications/{id}/` - Mark notification as read
+- `POST /api/notifications/mark-all-read/` - Mark all notifications as read
+- `GET /api/notifications/unread-count/` - Get unread notifications count
+
+### Example Requests
+
+**Like a post:**
+```bash
+curl -X POST http://localhost:8000/api/posts/1/like/ \
+  -H "Authorization: Token <your_token>"
